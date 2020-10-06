@@ -16,38 +16,29 @@ int run = 0;
 
 int main(void)
 {	
-
 	DDRB=0b10011;
 	GIMSK = 1<<INT0;		/* Enable INT0*/
 	MCUCR = 1<<ISC01 | 1<<ISC00;  /* Trigger INT0 on rising edge */
-	sei();			/* Enable Global Interrupt */
-	
+	sei();			/* Enable Global Interrupt */	
     while (1) 
     {
 		PORTB = 0xFF;
 		_delay_ms(1000);
 		PORTB = 0b10010;
 		_delay_ms(300);
-	
+		run=0;	
     }
 }
 ISR(INT0_vect)
-{
-	run=0;
-	PORTB = 0xFF;
+{	
 	_delay_ms(1000);
-	while(1)
-		{
-			
-			
+	while(run<=5)
+		{			
 			PORTB = 0b10001;
 			_delay_ms(500);
 			PORTB = 0b00011;
 			_delay_ms(500);
 			run++;
-			if(run>=5){				
-				return;
-			}
 		}
 	
 	
