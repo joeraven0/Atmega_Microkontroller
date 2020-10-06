@@ -1,5 +1,5 @@
 /*
- * atTiny45 interrupt INT0
+ * atTiny45 interrupt train light INT0
  *
  * Created: 2020-10-04 17:44:05
  * Author : Jringstad
@@ -22,16 +22,17 @@ int main(void)
 	sei();			/* Enable Global Interrupt */	
     while (1) 
     {
-		PORTB = 0xFF;
-		_delay_ms(1000);
 		PORTB = 0b10010;
 		_delay_ms(300);
+		PORTB = 0xFF;
+		_delay_ms(1000);
+		
 		run=0;	
     }
 }
 ISR(INT0_vect)
 {	
-	_delay_ms(1000);
+	
 	while(run<=5)
 		{			
 			PORTB = 0b10001;
