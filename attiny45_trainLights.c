@@ -19,7 +19,7 @@ int main(void)
 
 	DDRB=0b10011;
 	GIMSK = 1<<INT0;		/* Enable INT0*/
-	MCUCR = 0<<ISC01 | 1<<ISC00;  /* Trigger INT0 on rising edge */
+	MCUCR = 1<<ISC01 | 1<<ISC00;  /* Trigger INT0 on rising edge */
 	sei();			/* Enable Global Interrupt */
 	
     while (1) 
@@ -33,7 +33,9 @@ int main(void)
 }
 ISR(INT0_vect)
 {
+	run=0;
 	PORTB = 0xFF;
+	_delay_ms(1000);
 	while(1)
 		{
 			
@@ -43,8 +45,7 @@ ISR(INT0_vect)
 			PORTB = 0b00011;
 			_delay_ms(500);
 			run++;
-			if(run>=5){
-				run=0;
+			if(run>=5){				
 				return;
 			}
 		}
